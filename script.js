@@ -36,6 +36,7 @@ const advancedLevels = [
     {
         name: "级别 3 - 终极爆辣版",
         male: {
+            truth: {
             truth: [
             "有没有在射精后把还在跳动的肉棒对着镜子看？", "有没有对着镜子看自己的肉棒？", "用手最多用坚持多久？", 
             "有没有用过振动着的手机直接顶着龟头按到射精？", "射出的精液有没有闻一闻是什么味道？", 
@@ -49,6 +50,7 @@ const advancedLevels = [
             dare: ["牵着她的手直到下一轮结束", "给通讯录第5个人发‘我恋爱了’（可事后解释）"]
         },
         female: {
+            truth: {
             truth: [
             "有没有在高潮后把私处对着镜子或者用手指轻轻拨开看里面？", "有没有对着镜子看自己的小穴？", "最多用几根手指？", 
             "有没有用过振动着的手机直接顶着阴蒂按到高潮？", "喷出的水的话有没有闻一闻是什么味道？", 
@@ -66,101 +68,169 @@ const advancedLevels = [
     }
 ];
 
-// 游戏状态管理
+// 游戏状态
 let gameMode = 'normal';
 let currentLevelIndex = 0;
 let currentDrawCount = 0;
 let isAnimating = false;
-let currentGender = 'male'; // 'male' 或 'female'
 
-// 动态池
+// PK 环节状态
+let pkState = 'male_turn'; // 'male_turn', 'female_turn', 'waiting_draw'
+let malePoint = 0;
+let femalePoint = 0;
+let loserGender = ''; // 'male' 或 'female'
+
 let truthPool = [];
 let darePool = [];
 
-// 1. 选择难度
+// 选择版本
 function selectMode(mode) {
     gameMode = mode;
     document.getElementById("modeModal").style.display = "none";
-    currentGender = 'male'; // 默认男方先开始
-    resetPools();
-    updateGenderUI();
+    
+    const scoreBoard = document.getElementById("scoreBoard");
+    const indicator = document.getElementById("genderIndicator");
+
+    if (gameMode === 'normal') {
+        scoreBoard.style.display = "none";
+        indicator.style.display = "none";
+        document.getElementById("cardFrontText").innerText = "输了？选一项惩罚抽卡！";
+        resetPools();
+    } else {
+        scoreBoard.style.display = "flex";
+        indicator.style.display = "inline-flex";
+        resetPKRound();
+    }
 }
 
-// 2. 返回重新选择难度
+// 重置 PK 轮次
+function resetPKRound() {
+    pkState = 'male_turn';
+    malePoint = 0;
+    femalePoint = 0;
+    loserGender = '';
+    
+    document.getElementById("dice").innerText = "?";
+    document.getElementById("maleScore").innerText = "-";
+    document.getElementById("femaleScore").innerText = "-";
+    document.getElementById("cardFrontText").innerText = "等待掷骰子比大小...";
+    
+    // 禁用抽卡按钮，必须先比出输赢
+    toggleCardButtons(false);
+    updateGenderUI("👦", "请男方先掷骰子", false);
+}
+
+// 返回主菜单
 function resetGame() {
     document.getElementById("modeModal").style.display = "flex";
 }
 
-// 重置动态抽题池
-function resetPools() {
-    if (gameMode === 'normal') {
-        truthPool = [...normalPool.truth];
-        darePool = [...normalPool.dare];
-    } else {
-        const currentData = advancedLevels[currentLevelIndex][currentGender];
-        truthPool = [...currentData.truth];
-        darePool = [...currentData.dare];
-    }
+// 控制抽卡按钮状态
+function toggleCardButtons(enable) {
+    document.getElementById("btnTruth").disabled = !enable;
+    document.getElementById("btnDare").disabled = !enable;
 }
 
-// 更新性别 UI 显示
-function updateGenderUI() {
+// 更新顶栏提示 UI
+function updateGenderUI(icon, text, isFemale) {
     const indicator = document.getElementById("genderIndicator");
-    const icon = document.getElementById("genderIcon");
-    const text = document.getElementById("genderText");
-
-    if (gameMode === 'normal') {
-        indicator.style.display = "none"; // 普通模式隐藏性别提示
+    document.getElementById("genderIcon").innerText = icon;
+    document.getElementById("genderText").innerText = text;
+    if (isFemale) {
+        indicator.classList.add("female-turn");
     } else {
-        indicator.style.display = "inline-block";
-        if (currentGender === 'male') {
-            indicator.classList.remove("female-turn");
-            icon.innerText = "👦";
-            text.innerText = "男方回合 (投掷/抽卡)";
-        } else {
-            indicator.classList.add("female-turn");
-            icon.innerText = "👧";
-            text.innerText = "女方回合 (投掷/抽卡)";
-        }
+        indicator.classList.remove("female-turn");
     }
 }
 
-// 3. 掷骰子（并在进阶版中切换男女角色）
+// 掷骰子逻辑 (PK 核心)
 function rollDice() {
+    if (gameMode === 'normal') {
+        // 普通版直接掷骰子
+        runDiceAnimation((val) => {});
+        return;
+    }
+
+    if (pkState === 'waiting_draw') return;
+
+    runDiceAnimation((val) => {
+        if (pkState === 'male_turn') {
+            malePoint = val;
+            document.getElementById("maleScore").innerText = malePoint;
+            pkState = 'female_turn';
+            updateGenderUI("👧", "请女方掷骰子", true);
+        } else if (pkState === 'female_turn') {
+            femalePoint = val;
+            document.getElementById("femaleScore").innerText = femalePoint;
+            
+            // 判定输赢
+            if (malePoint === femalePoint) {
+                updateGenderUI("⚖️", "平局！请重新掷骰子比大小", false);
+                pkState = 'male_turn';
+            } else if (malePoint < femalePoint) {
+                loserGender = 'male';
+                pkState = 'waiting_draw';
+                updateGenderUI("👦", "男方输了！准备接受惩罚", false);
+                document.getElementById("cardFrontText").innerText = "👦 男方输了！请选一项惩罚抽卡";
+                toggleCardButtons(true);
+            } else {
+                loserGender = 'female';
+                pkState = 'waiting_draw';
+                updateGenderUI("👧", "女方输了！准备接受惩罚", true);
+                document.getElementById("cardFrontText").innerText = "👧 女方输了！请选一项惩罚抽卡";
+                toggleCardButtons(true);
+            }
+        }
+    });
+}
+
+// 骰子转动动画
+function runDiceAnimation(callback) {
     const dice = document.getElementById("dice");
-    if (!dice) return;
     dice.classList.add("rolling");
 
     setTimeout(() => {
         const result = Math.floor(Math.random() * 6) + 1;
         dice.innerText = result;
         dice.classList.remove("rolling");
+        callback(result);
     }, 500);
 }
 
-// 4. 抽卡逻辑
+// 重置/获取动态题库
+function resetPools() {
+    if (gameMode === 'normal') {
+        truthPool = [...normalPool.truth];
+        darePool = [...normalPool.dare];
+    } else {
+        const currentData = advancedLevels[currentLevelIndex][loserGender];
+        truthPool = [...currentData.truth];
+        darePool = [...currentData.dare];
+    }
+}
+
+// 抽卡逻辑
 function getQuestion(type) {
     if (isAnimating) return;
+    
+    // 进阶模式下如果还没比出输赢，不能抽卡
+    if (gameMode === 'advanced' && pkState !== 'waiting_draw') return;
+    
     isAnimating = true;
 
-    const container = document.getElementById("cardContainer");
-    const resultBox = document.getElementById("result-box");
+    // 每次抽卡前确定使用输家的题库
+    resetPools();
 
     let pool = type === 'truth' ? truthPool : darePool;
-
-    // 防止题库被抽空，为空时补充
-    if (pool.length === 0) {
-        resetPools();
-        pool = type === 'truth' ? truthPool : darePool;
-    }
-
     const randomIndex = Math.floor(Math.random() * pool.length);
     const selectedQuestion = pool.splice(randomIndex, 1)[0];
 
-    // 进阶模式计数与男女轮流切换
     if (gameMode === 'advanced') {
         currentDrawCount++;
     }
+
+    const container = document.getElementById("cardContainer");
+    const resultBox = document.getElementById("result-box");
 
     const updateCardContent = () => {
         resultBox.innerText = selectedQuestion;
@@ -170,10 +240,13 @@ function getQuestion(type) {
             isAnimating = false;
             if (gameMode === 'advanced') {
                 checkLevelUp();
-                // 抽完卡后自动轮到下一位（男/女轮换）
-                currentGender = currentGender === 'male' ? 'female' : 'male';
-                resetPools();
-                updateGenderUI();
+                // 抽完卡 2.5 秒后自动重置进入下一轮 PK
+                setTimeout(() => {
+                    if (container.classList.contains("flipped")) {
+                        container.classList.remove("flipped");
+                    }
+                    resetPKRound();
+                }, 2500);
             }
         }, 600);
     };
@@ -186,13 +259,12 @@ function getQuestion(type) {
     }
 }
 
-// 5. 暗中升级判断
+// 自动升级
 function checkLevelUp() {
     if (currentDrawCount >= 8) {
         if (currentLevelIndex < advancedLevels.length - 1) {
             currentLevelIndex++;
             currentDrawCount = 0;
-            resetPools();
         }
     }
 }
