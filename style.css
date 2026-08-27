@@ -1,11 +1,176 @@
-/* 模式选择弹窗 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 游戏主体容器 */
+.main-container {
+    background: #ffffff;
+    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    width: 100%;
+    max-width: 360px;
+}
+
+h1 {
+    font-size: 1.6rem;
+    color: #2d3748;
+    margin-bottom: 20px;
+}
+
+/* 骰子区域 */
+.dice-section {
+    margin-bottom: 20px;
+}
+
+.dice {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(145deg, #ff4757, #ff6b81);
+    color: white;
+    font-size: 2.2rem;
+    font-weight: bold;
+    line-height: 64px;
+    border-radius: 16px;
+    margin: 0 auto 12px;
+    box-shadow: 0 6px 15px rgba(255, 71, 87, 0.4);
+    transition: transform 0.5s ease-out;
+}
+
+.dice.rolling {
+    animation: spin 0.5s infinite linear;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg) scale(0.9); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(0.9); }
+}
+
+.btn-dice {
+    background: #2ed573;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 10px rgba(46, 213, 115, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-dice:active {
+    transform: scale(0.96);
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: #edf2f7;
+    margin: 20px 0;
+}
+
+/* 3D 翻转卡片 */
+.card-container {
+    perspective: 1000px;
+    margin: 20px 0;
+    height: 140px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.card-container.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    padding: 16px;
+    font-weight: bold;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+.card-front {
+    background: #f7fafc;
+    color: #718096;
+    border: 2px dashed #cbd5e0;
+}
+
+.card-back {
+    background: #ebf8ff;
+    color: #2b6cb0;
+    border: 2px solid #63b3ed;
+    transform: rotateY(180deg);
+    box-shadow: 0 4px 12px rgba(99, 179, 237, 0.2);
+}
+
+/* 抽卡按钮 */
+.button-group {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.button-group button {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background-color: #4299e1;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(66, 153, 225, 0.3);
+    transition: all 0.2s;
+}
+
+.button-group .btn-dare {
+    background-color: #ed64a6;
+    box-shadow: 0 4px 10px rgba(237, 100, 166, 0.3);
+}
+
+.button-group button:active {
+    transform: scale(0.96);
+}
+
+/* 模式选择遮罩 */
 .mode-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,33 +179,39 @@
 
 .mode-box {
     background: white;
-    padding: 25px 20px;
-    border-radius: 16px;
+    padding: 30px 24px;
+    border-radius: 20px;
     text-align: center;
-    width: 280px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    width: 300px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
 
 .mode-box h2 {
-    font-size: 1.2rem;
-    margin-top: 0;
+    font-size: 1.3rem;
     margin-bottom: 20px;
-    color: #333;
+    color: #1a202c;
 }
 
 .btn-mode {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     margin: 8px 0;
     border: none;
-    border-radius: 10px;
-    background: #70a1ff;
+    border-radius: 12px;
+    background: #4299e1;
     color: white;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(66, 153, 225, 0.3);
+    transition: all 0.2s;
 }
 
 .btn-mode.btn-spicy {
-    background: #ff6b81;
+    background: #ed64a6;
+    box-shadow: 0 4px 10px rgba(237, 100, 166, 0.3);
+}
+
+.btn-mode:active {
+    transform: scale(0.97);
 }
