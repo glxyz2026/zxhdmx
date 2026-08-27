@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>真心话大冒险</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 模式选择弹窗遮罩 -->
+    <div class="mode-modal" id="modeModal">
+        <div class="mode-box">
+            <h2>请选择游戏版本</h2>
+            <button class="btn-mode" onclick="selectMode('normal')">🍃 普通版 (纯净模式)</button>
+            <button class="btn-mode btn-spicy" onclick="selectMode('advanced')">🔥 进阶版 (递进模式)</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <h1>真心话大冒险</h1>
+        
+        <!-- 掷骰子区域 -->
+        <div class="dice-section">
+            <div class="dice" id="dice">1</div>
+            <button class="btn-dice" onclick="rollDice()">🎲 掷骰子 (比大小)</button>
+        </div>
+
+        <hr class="divider">
+
+        <!-- 3D 抽卡卡片 -->
+        <div class="card-container" id="cardContainer">
+            <div class="card-inner">
+                <div class="card-face card-front">输了？选一项惩罚抽卡！</div>
+                <div class="card-face card-back" id="result-box">准备好了吗？</div>
+            </div>
+        </div>
+
+        <!-- 抽卡按钮 -->
+        <div class="button-group">
+            <button onclick="getQuestion('truth')">真心话</button>
+            <button onclick="getQuestion('dare')" class="btn-dare">大冒险</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
