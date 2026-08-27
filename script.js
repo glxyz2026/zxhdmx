@@ -1,84 +1,131 @@
-// ================= 1. 纯净普通版题库 =================
+// ================= 1. 普通版题库 =================
 const normalPool = {
     truth: [
-        "你做过最尴尬的事情是什么？",
-        "如果能拥有一项超能力，你希望是什么？",
-        "如果不考虑收入，你最想做什么职业？",
-        "你最难以忍受别人的什么习惯？",
-        "你做过最疯狂的一件事是什么？",
-        "上一次大笑是因为什么？"
+        "你做过最尴尬的事情是什么？", "如果能拥有一项超能力，你希望是什么？",
+        "如果不考虑收入，你最想做什么职业？", "你最难以忍受别人的什么习惯？"
     ],
     dare: [
-        "做10个俯卧撑并高喊‘我是最棒的’",
-        "模仿一种动物的叫声10秒",
-        "用方言念一段绕口令",
-        "展示你手机里最新拍的一张照片",
-        "做出 3 个搞怪的表情并保持 5 秒",
-        "大声唱出你最喜欢歌曲的高音一句"
+        "做10个俯卧撑", "模仿一种动物的叫声10秒", "用方言念一段绕口令", "展示你手机里最新拍的一张照片"
     ]
 };
 
-// ================= 2. 进阶分级题库 =================
+// ================= 2. 进阶男女分级题库 =================
 const advancedLevels = [
     {
         name: "级别 1 - 破冰普通版",
-        truth: [
-            "你介意对方牵你的手吗？", "介意和对方的肢体接触？", "今天穿什么颜色的内裤？",
-            "有没有同时喜欢/好感过两个人？", "你介意对方分享一些隐私问题吗？", "对方是否是你生活中不可或缺的人？",
-            "对方有没有哪一瞬间给你心跳加速的感觉？", "有没有做过关于对方的梦？", "如果和对方是以情侣的身份旅游一天，你会开心吗？"
-        ],
-        dare: [
-            "用小指勾住对方小指十五秒。", "肩并肩靠五秒，再分开。", "两人十指在桌面上方悬空靠近但不碰，停五秒。",
-            "说「我现在有点在意你」，要看着对方。", "展示你手机里最新拍的一张照片。", "用对方的杯子喝一口。"
-        ]
+        male: {
+            truth: ["对她第一印象是什么？", "今天穿的衣服是你精心挑的吗？", "你觉得她哪个部位最迷人？"],
+            dare: ["主动握住对方的手10秒", "夸赞对方3个具体优点", "与对方对视10秒不许笑"]
+        },
+        female: {
+            truth: ["你觉得他今天帅吗？", "他有没有哪一瞬间让你觉得心动？", "平时最喜欢他什么性格？"],
+            dare: ["轻轻拍拍他的头", "让他为你重新整理一下发型", "在他手心写一个字让他猜"]
+        }
     },
     {
         name: "级别 2 - 进阶升温版",
-        truth: [
-            "你在场所有人里，第一印象最好的是谁？", "你谈过最长的一段恋爱是多久？", "你觉得自己在感情中最大的缺点是什么？",
-            "你上一次对异性心动是什么时候？", "做过关于在场某人的梦吗？描述一下"
-        ],
-        dare: [
-            "与左边第一位异性深情对视10秒不许笑", "向在场一位朋友表达一个真实的赞美", "让右边的人在你手上用眉笔画个图案"
-        ]
+        male: {
+            truth: ["曾经做过关于她的梦吗？", "最想带她去哪里旅游？", "如果只能用三个词形容她会是什么？"],
+            dare: ["拉着她的手共同完成一段小舞蹈", "对她说一句肉麻的情话", "允许她看你最新一条聊天记录"]
+        },
+        female: {
+            truth: ["如果在场必须选一个人谈恋爱你选谁？", "你觉得他在感情中最大的缺点是什么？", "上一次对他心动是什么时候？"],
+            dare: ["捏捏他的脸颊保持5秒", "用他的杯子喝一口水", "让他指定一个安全部位轻碰一下"]
+        }
     },
     {
         name: "级别 3 - 终极爆辣版",
-        truth: [
-            "你对在场的哪一位曾有过一丝好感？", "你理想中伴侣最吸引你的身体部位是哪里？", "如果必须在场选一个人谈恋爱，你选谁？"
+        male: {
+            truth: [
+            "有没有在射精后把还在跳动的肉棒对着镜子看？", "有没有对着镜子看自己的肉棒？", "用手最多用坚持多久？", 
+            "有没有用过振动着的手机直接顶着龟头按到射精？", "射出的精液有没有闻一闻是什么味道？", 
+            "现在下面有硬硬的吗？", "高潮那几秒肉棒是一下下跳动，还是持续痉挛？", 
+            "有对着镜子看自己射精时的表情吗？", "自慰到高潮时有没有喊出“插快点”或“好深”之类的话？", "自慰时会把衣服全部脱光跪在床上，屁股高高抬起自己抽插的姿势吗？", 
+            "用手指快速抠/撸的时候，会不会发出咕啾咕啾的水声？会兴奋吗？", "射精/高潮结束后有没有立刻把手指重新塞回去，感受里面还在一抽一抽地收缩？", 
+            "会一直手摸下面的时候，一只手摸自己的乳头吗？", "有没有在洗澡的时候，试过把手伸到屁眼里面？", "有没有试过在没人的时候全身裸着？", "有没有想过被口交是什么感觉，对方舌头伸到小穴/含住肉棒会很刺激吗？", "手指抽出时/撸动时会带出很多液体吗？会拉丝还是直接滴下来？", 
+            "有没有想过用道具帮助自己自慰？", "自慰到高潮时，你会不会无意识地把屁股抬起来或腰往上顶？", "自慰时最常用的姿势是平躺分开腿、趴着，还是侧卧夹腿？", 
+            "你想象第一次被后入/后入时，最期待被顶/顶到到哪里？", "你自慰时幻想被怎么口交吗？舌头具体怎么动？", "幻想被边舔边插时，舌头和手指/肉棒怎么配合最让你受不了？", "自慰时会发出声音吗？是压抑着喘，还是会叫出声？"
         ],
-        dare: [
-            "在场选一位朋友，手牵手直到下一轮结束", "向全场公布你微信搜索记录的前三条"
-        ]
+            dare: ["牵着她的手直到下一轮结束", "给通讯录第5个人发‘我恋爱了’（可事后解释）"]
+        },
+        female: {
+            truth: [
+            "有没有在高潮后把私处对着镜子或者用手指轻轻拨开看里面？", "有没有对着镜子看自己的小穴？", "最多用几根手指？", 
+            "有没有用过振动着的手机直接顶着阴蒂按到高潮？", "喷出的水的话有没有闻一闻是什么味道？", 
+            "现在下面有湿湿吗？", "高潮那几秒小穴是一下下猛夹，还是持续痉挛？", 
+            "有对着镜子看自己高潮的表情吗？", "自慰到高潮时有没有喊出“插快点”或“好深”之类的话？", "自慰时会把衣服全部脱光跪在床上，屁股高高抬起这个姿势吗？", 
+            "用手指快速抠的时候，会不会发出咕啾咕啾的水声？会兴奋吗？", "高潮结束后有没有立刻把手指停留在里面，感受里面还在一抽一抽地收缩？", 
+            "会一只手摸下面的时候，一只手捏自己的乳头吗？", "有没有在洗澡的时候自慰？", "有没有试过在没人的时候全身裸着？", 
+            "有没有想过被口交是什么感觉，会想象对方舌头伸到吗？", "手指抽出时会带出液体吗？会拉丝吗？", 
+            "有没有想过用玩具帮助自己自慰？", "自慰到高潮时，你会不会无意识地把屁股抬起来或腰往上顶？", 
+            "自慰时最常用的姿势是平躺分开腿、趴着，还是侧卧夹腿？", 
+            "你想象第一次被后入时，最期待顶到到哪里？", "你自慰时幻想被口交吗？舌头具体怎么动？", "幻想被边舔边插时，舌头和手指怎么配合最让你受不了？", "自慰时会发出声音吗？是压抑着喘，还是会叫出声？"
+        ],
+            dare: ["靠在他肩上保持15秒", "展示手机相册隐藏文件夹/最近删除"]
+        }
     }
 ];
 
-// 全局游戏状态
-let gameMode = 'normal'; // 'normal' 或 'advanced'
+// 游戏状态管理
+let gameMode = 'normal';
 let currentLevelIndex = 0;
 let currentDrawCount = 0;
 let isAnimating = false;
+let currentGender = 'male'; // 'male' 或 'female'
 
+// 动态池
 let truthPool = [];
 let darePool = [];
 
-// 选择版本模式
+// 1. 选择难度
 function selectMode(mode) {
     gameMode = mode;
-    document.getElementById("modeModal").style.display = "none"; // 隐藏弹窗
+    document.getElementById("modeModal").style.display = "none";
+    currentGender = 'male'; // 默认男方先开始
+    resetPools();
+    updateGenderUI();
+}
 
+// 2. 返回重新选择难度
+function resetGame() {
+    document.getElementById("modeModal").style.display = "flex";
+}
+
+// 重置动态抽题池
+function resetPools() {
     if (gameMode === 'normal') {
         truthPool = [...normalPool.truth];
         darePool = [...normalPool.dare];
     } else {
-        currentLevelIndex = 0;
-        currentDrawCount = 0;
-        truthPool = [...advancedLevels[currentLevelIndex].truth];
-        darePool = [...advancedLevels[currentLevelIndex].dare];
+        const currentData = advancedLevels[currentLevelIndex][currentGender];
+        truthPool = [...currentData.truth];
+        darePool = [...currentData.dare];
     }
 }
 
-// 掷骰子
+// 更新性别 UI 显示
+function updateGenderUI() {
+    const indicator = document.getElementById("genderIndicator");
+    const icon = document.getElementById("genderIcon");
+    const text = document.getElementById("genderText");
+
+    if (gameMode === 'normal') {
+        indicator.style.display = "none"; // 普通模式隐藏性别提示
+    } else {
+        indicator.style.display = "inline-block";
+        if (currentGender === 'male') {
+            indicator.classList.remove("female-turn");
+            icon.innerText = "👦";
+            text.innerText = "男方回合 (投掷/抽卡)";
+        } else {
+            indicator.classList.add("female-turn");
+            icon.innerText = "👧";
+            text.innerText = "女方回合 (投掷/抽卡)";
+        }
+    }
+}
+
+// 3. 掷骰子（并在进阶版中切换男女角色）
 function rollDice() {
     const dice = document.getElementById("dice");
     if (!dice) return;
@@ -91,7 +138,7 @@ function rollDice() {
     }, 500);
 }
 
-// 抽卡逻辑
+// 4. 抽卡逻辑
 function getQuestion(type) {
     if (isAnimating) return;
     isAnimating = true;
@@ -101,21 +148,16 @@ function getQuestion(type) {
 
     let pool = type === 'truth' ? truthPool : darePool;
 
-    // 防止题库抽空，抽完后自动补充
+    // 防止题库被抽空，为空时补充
     if (pool.length === 0) {
-        if (gameMode === 'normal') {
-            pool = type === 'truth' ? [...normalPool.truth] : [...normalPool.dare];
-        } else {
-            pool = type === 'truth' ? [...advancedLevels[currentLevelIndex].truth] : [...advancedLevels[currentLevelIndex].dare];
-        }
-        if (type === 'truth') truthPool = pool;
-        else darePool = pool;
+        resetPools();
+        pool = type === 'truth' ? truthPool : darePool;
     }
 
     const randomIndex = Math.floor(Math.random() * pool.length);
     const selectedQuestion = pool.splice(randomIndex, 1)[0];
 
-    // 只有进阶版才累计抽题数进行暗中升级
+    // 进阶模式计数与男女轮流切换
     if (gameMode === 'advanced') {
         currentDrawCount++;
     }
@@ -128,6 +170,10 @@ function getQuestion(type) {
             isAnimating = false;
             if (gameMode === 'advanced') {
                 checkLevelUp();
+                // 抽完卡后自动轮到下一位（男/女轮换）
+                currentGender = currentGender === 'male' ? 'female' : 'male';
+                resetPools();
+                updateGenderUI();
             }
         }, 600);
     };
@@ -140,14 +186,13 @@ function getQuestion(type) {
     }
 }
 
-// 静默升级判断
+// 5. 暗中升级判断
 function checkLevelUp() {
     if (currentDrawCount >= 8) {
         if (currentLevelIndex < advancedLevels.length - 1) {
             currentLevelIndex++;
             currentDrawCount = 0;
-            truthPool = [...advancedLevels[currentLevelIndex].truth];
-            darePool = [...advancedLevels[currentLevelIndex].dare];
+            resetPools();
         }
     }
 }

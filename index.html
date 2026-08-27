@@ -7,20 +7,28 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 模式选择弹窗遮罩 -->
+    <!-- 模式选择弹窗 -->
     <div class="mode-modal" id="modeModal">
         <div class="mode-box">
             <h2>请选择游戏版本</h2>
             <button class="btn-mode" onclick="selectMode('normal')">🍃 普通版 (纯净模式)</button>
-            <button class="btn-mode btn-spicy" onclick="selectMode('advanced')">🔥 进阶版 (递进模式)</button>
+            <button class="btn-mode btn-spicy" onclick="selectMode('advanced')">🔥 进阶版 (男女递进模式)</button>
         </div>
     </div>
 
     <div class="main-container">
+        <!-- 左上角返回重新选择难度按钮 -->
+        <button class="btn-back" onclick="resetGame()">↩ 重新选择</button>
+
         <h1>真心话大冒险</h1>
         
-        <!-- 掷骰子区域 -->
+        <!-- 掷骰子与性别提示区域 -->
         <div class="dice-section">
+            <!-- 性别 Logo 标识 -->
+            <div class="gender-indicator" id="genderIndicator">
+                <span id="genderIcon">👦</span> <span id="genderText">男方掷骰子</span>
+            </div>
+            
             <div class="dice" id="dice">1</div>
             <button class="btn-dice" onclick="rollDice()">🎲 掷骰子 (比大小)</button>
         </div>
@@ -41,6 +49,7 @@
             <button onclick="getQuestion('dare')" class="btn-dare">大冒险</button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
