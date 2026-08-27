@@ -1,39 +1,271 @@
-/* 左上角返回按钮 */
-.main-container {
-    position: relative; /* 确保返回按钮定位准 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 游戏主体容器 */
+.main-container {
+    position: relative; /* 为左上角返回按钮准确定位 */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 35px 25px 30px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
+    text-align: center;
+    width: 100%;
+    max-width: 360px;
+}
+
+/* 左上角返回按钮 */
 .btn-back {
     position: absolute;
-    top: 15px;
-    left: 15px;
-    background: transparent;
+    top: 16px;
+    left: 16px;
+    background: #edf2f7;
+    color: #4a5568;
     border: none;
-    color: #a0aec0;
-    font-size: 0.85rem;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
-    transition: color 0.2s;
+    transition: all 0.2s ease;
 }
 
 .btn-back:hover {
-    color: #4a5568;
+    background: #e2e8f0;
+    color: #2d3748;
+    transform: translateY(-1px);
 }
 
-/* 性别指示器样式 */
+.btn-back:active {
+    transform: scale(0.95);
+}
+
+h1 {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-top: 10px;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+}
+
+/* 骰子与性别区域 */
+.dice-section {
+    margin-bottom: 15px;
+}
+
+/* 性别轮流指示器（胶囊高亮设计） */
 .gender-indicator {
-    display: inline-block;
-    background: #ebf8ff;
-    color: #2b6cb0;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #ebf8ff 0%, #bae6fd 100%);
+    color: #0369a1;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 0.88rem;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(3, 105, 161, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 女方回合颜色动态改变 */
+/* 女方回合动态配色 */
 .gender-indicator.female-turn {
-    background: #fff5f7;
-    color: #d53f8c;
+    background: linear-gradient(135deg, #fff5f7 0%, #fbcfe8 100%);
+    color: #be185d;
+    box-shadow: 0 2px 8px rgba(190, 24, 93, 0.15);
+}
+
+/* 骰子外观 */
+.dice {
+    width: 68px;
+    height: 68px;
+    background: linear-gradient(145deg, #ff4757, #ff6b81);
+    color: white;
+    font-size: 2.3rem;
+    font-weight: bold;
+    line-height: 68px;
+    border-radius: 18px;
+    margin: 0 auto 14px;
+    box-shadow: 0 8px 18px rgba(255, 71, 87, 0.35);
+    transition: transform 0.5s ease-out;
+}
+
+.dice.rolling {
+    animation: spin 0.5s infinite linear;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg) scale(0.9); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(0.9); }
+}
+
+.btn-dice {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.92rem;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-dice:active {
+    transform: scale(0.95);
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, rgba(226, 232, 240, 0), rgba(226, 232, 240, 1), rgba(226, 232, 240, 0));
+    margin: 20px 0;
+}
+
+/* 3D 卡片 */
+.card-container {
+    perspective: 1000px;
+    margin: 18px 0;
+    height: 140px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.card-container.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    padding: 18px;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.card-front {
+    background: #f8fafc;
+    color: #64748b;
+    border: 2px dashed #cbd5e1;
+}
+
+.card-back {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    color: #0369a1;
+    border: 2px solid #7dd3fc;
+    transform: rotateY(180deg);
+    box-shadow: 0 6px 16px rgba(125, 211, 252, 0.25);
+}
+
+/* 抽卡按钮组 */
+.button-group {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.button-group button {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 0.98rem;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    transition: all 0.2s;
+}
+
+.button-group .btn-dare {
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+    box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3);
+}
+
+.button-group button:active {
+    transform: scale(0.96);
+}
+
+/* 模式选择遮罩弹窗 */
+.mode-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.mode-box {
+    background: white;
+    padding: 32px 24px;
+    border-radius: 24px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+}
+
+.mode-box h2 {
+    font-size: 1.25rem;
+    margin-bottom: 22px;
+    color: #1e293b;
+}
+
+.btn-mode {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    font-size: 0.98rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    transition: all 0.2s;
+}
+
+.btn-mode.btn-spicy {
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+    box-shadow: 0 4px 12px rgba(219, 39, 119, 0.25);
+}
+
+.btn-mode:active {
+    transform: scale(0.96);
 }
